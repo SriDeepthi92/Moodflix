@@ -26,6 +26,7 @@ Later:
 
 ## Architecture
 
+```text
 User Query
     ↓
 FastAPI
@@ -35,6 +36,7 @@ Embedding Service
 pgvector Similarity Search
     ↓
 PostgreSQL
+```
 
 ## Run Locally
 
