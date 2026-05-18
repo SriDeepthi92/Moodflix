@@ -1,35 +1,53 @@
 ﻿# MoodFlix
 
-Semantic movie and TV discovery engine powered by vector search and natural language understanding.
+MoodFlix is a semantic TV show and movie discovery engine powered by vector search and natural language understanding.
 
-## Demo Concept
-
-Instead of searching for exact titles:
+Instead of searching by exact titles, users can describe a mood, atmosphere, or feeling:
 
 > "something creepy but cosy for a rainy evening"
 
-MoodFlix uses semantic embeddings and vector similarity search to discover relevant shows and movies.
+MoodFlix converts natural language into vector embeddings and retrieves semantically similar shows using PostgreSQL + pgvector.
 
-## Tech Stack
+---
 
+# Current Status
+
+## Implemented
+
+- Dockerized development environment
+- FastAPI backend
+- PostgreSQL database
+- pgvector integration
+- SQLAlchemy setup
+- Embedding service architecture
+- Semantic search foundation
+
+## In Progress
+
+- CSV ingestion pipeline
+- Embedding generation
+- Vector similarity search endpoint
+
+---
+
+# Tech Stack
+
+- Python 3.11
 - FastAPI
 - PostgreSQL
 - pgvector
-- Docker
-- Python
-
-Later:
-
+- SQLAlchemy
 - sentence-transformers
-- Airflow
-- dbt
+- Docker & Docker Compose
 
-## Architecture
+---
+
+# Project Architecture
 
 ```text
 User Query
     ↓
-FastAPI
+FastAPI API Layer
     ↓
 Embedding Service
     ↓
@@ -38,21 +56,133 @@ pgvector Similarity Search
 PostgreSQL
 ```
 
-## Run Locally
+# Project Structure
+
+```text
+moodflix/
+│
+├── app/
+│   ├── api/
+│   │   └── routes/
+│   │
+│   ├── core/
+│   │
+│   ├── db/
+│   │   ├── database.py
+│   │   └── models.py
+│   │
+│   ├── services/
+│   │   ├── embeddings.py
+│   │   ├── ingestion.py
+│   │   └── search.py
+│   │
+│   ├── schemas/
+│   │
+│   └── main.py
+│
+├── data/
+├── tests/
+│
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+├── .env
+└── README.md
+```
+
+# Local Development
+
+Start Containers
 
 ```bash
 docker compose up --build
 ```
 
-Then open `http://localhost:8000` and check the health endpoint at `http://localhost:8000/`.
+Stop Containers
+
+```bash
+docker compose down
+```
+
+Restart Containers
+
+```bash
+docker compose restart
+```
+
+## API Documentation
+
+FastAPI automatically generates Swagger documentation:
+
+http://localhost:8000/docs
+
+## Database
+
+MoodFlix uses PostgreSQL with the pgvector extension for vector similarity search.
+
+Example vector-enabled table:
+
+```sql
+CREATE TABLE shows (
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    overview TEXT,
+    embedding VECTOR(384)
+);
+```
+
+## Semantic Search
+
+MoodFlix uses sentence-transformer embeddings to represent show descriptions and user queries as high-dimensional vectors.
+
+Example query:
+
+"dark rainy psychological mystery"
+
+Expected semantic matches:
+
+- Dark
+- Mindhunter
+- Stranger Things
+- Roadmap
 
 ## Roadmap
 
-- [x] Dockerized FastAPI setup
-- [x] PostgreSQL + pgvector integration
-- [ ] Semantic embeddings pipeline
-- [ ] Natural language recommendation engine
-- [ ] TMDB ingestion pipeline
-- [ ] Airflow orchestration
-- [ ] dbt analytics models
-- [ ] Recommendation evaluation metrics
+### Backend & Retrieval
+
+- Dockerized FastAPI setup
+- PostgreSQL + pgvector integration
+- Embedding service structure
+- CSV ingestion pipeline
+- Semantic similarity search
+- Search API endpoint
+- Async ingestion tasks
+
+### Data Engineering
+
+- TMDB ingestion pipeline
+- Airflow orchestration
+- dbt transformations
+- Recommendation analytics models
+
+### Product Features
+
+- Mood-based recommendations
+- Genre clustering
+- Similar show recommendations
+- User watch history
+- Recommendation evaluation metrics
+
+## Vision
+
+MoodFlix explores a different way of discovering entertainment — searching by emotional intent rather than exact titles or genres.
+
+The project combines:
+
+- backend engineering
+- vector databases
+- semantic retrieval systems
+- modern PostgreSQL features
+- AI-powered search architecture
+
+into a production-oriented learning project.
